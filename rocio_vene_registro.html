@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Rocío Vene Makeup · Registro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rv-nude: #C9A882;
+    --rv-rose: #D4869A;
+    --rv-cream: #F8F4F0;
+    --rv-champagne: #EFE5D8;
+    --rv-deep: #2A1F1A;
+    --rv-muted: #7D6B62;
+    --rv-success: #7B9E7E;
+    --rv-gold: #B8965A;
+    --rv-white: #FDFAF7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--rv-cream);
+    color: var(--rv-deep);
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--rv-deep);
+    padding: 28px 24px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 0%, rgba(201,168,130,0.18) 0%, transparent 65%),
+                radial-gradient(ellipse at 20% 100%, rgba(212,134,154,0.12) 0%, transparent 60%);
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--rv-nude);
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+  .hero-tagline {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(201,168,130,0.5);
+    margin-top: 4px;
+  }
+  .hero-divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(201,168,130,0.3);
+    margin: 14px auto 12px;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: white;
+    font-style: italic;
+  }
+  .hero-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    padding: 16px 24px 0;
+    background: var(--rv-deep);
+  }
+  .progress-track {
+    display: flex;
+    gap: 6px;
+    padding-bottom: 16px;
+  }
+  .prog-segment {
+    flex: 1;
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(201,168,130,0.2);
+    transition: background 0.4s;
+  }
+  .prog-segment.done { background: var(--rv-nude); }
+  .prog-segment.active { background: rgba(201,168,130,0.6); }
+
+  /* ── CARD ── */
+  .card-wrap {
+    padding: 0 16px 40px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .reg-card {
+    background: var(--rv-white);
+    border-radius: 0 0 20px 20px;
+    padding: 28px 24px 24px;
+    box-shadow: 0 12px 48px rgba(42,31,26,0.1);
+  }
+
+  /* ── STEPS ── */
+  .step { display: none; }
+  .step.active { display: block; }
+
+  .step-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rv-nude);
+    margin-bottom: 6px;
+  }
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--rv-deep);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .step-sub {
+    font-size: 13px;
+    color: var(--rv-muted);
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  /* ── FORM ── */
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block;
+    font-size: 11px;
+    color: var(--rv-muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .form-input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1.5px solid rgba(201,168,130,0.25);
+    border-radius: 10px;
+    background: var(--rv-cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--rv-deep);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
+  .form-input:focus { border-color: var(--rv-nude); background: var(--rv-white); }
+  .form-input::placeholder { color: rgba(125,107,98,0.5); }
+  textarea.form-input { resize: none; line-height: 1.5; }
+
+  /* ── SERVICE BUTTONS ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .service-btn {
+    padding: 16px 12px;
+    border: 1.5px solid rgba(201,168,130,0.25);
+    border-radius: 12px;
+    background: var(--rv-cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--rv-deep);
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: left;
+    line-height: 1.3;
+  }
+  .service-btn .svc-icon { font-size: 20px; display: block; margin-bottom: 6px; }
+  .service-btn .svc-name { font-weight: 500; display: block; }
+  .service-btn .svc-sub { font-size: 11px; color: var(--rv-muted); display: block; margin-top: 2px; }
+  .service-btn.selected {
+    border-color: var(--rv-nude);
+    background: rgba(201,168,130,0.12);
+  }
+  .service-btn.selected .svc-name { color: var(--rv-gold); }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    width: 100%;
+    padding: 15px;
+    background: var(--rv-nude);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover { background: var(--rv-gold); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-secondary {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: var(--rv-muted);
+    border: 1.5px solid rgba(201,168,130,0.3);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 10px;
+  }
+  .btn-secondary:hover { border-color: var(--rv-nude); color: var(--rv-nude); }
+
+  .btn-row { display: flex; gap: 10px; margin-top: 8px; }
+  .btn-row .btn-primary { flex: 2; width: auto; }
+  .btn-row .btn-back {
+    flex: 1;
+    padding: 14px;
+    background: transparent;
+    color: var(--rv-muted);
+    border: 1.5px solid rgba(201,168,130,0.25);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-back:hover { color: var(--rv-deep); border-color: var(--rv-nude); }
+
+  /* ── SUCCESS SCREEN ── */
+  .success-wrap { text-align: center; padding: 8px 0 16px; }
+  .success-icon {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, var(--rv-rose), var(--rv-nude));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 24px rgba(201,168,130,0.35);
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  .success-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--rv-deep);
+    margin-bottom: 8px;
+  }
+  .success-msg {
+    font-size: 14px;
+    color: var(--rv-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  /* Resumen */
+  .resumen-card {
+    background: var(--rv-cream);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: left;
+    margin-bottom: 20px;
+    border: 1px solid rgba(201,168,130,0.15);
+  }
+  .resumen-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--rv-muted);
+    margin-bottom: 10px;
+  }
+  .resumen-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(201,168,130,0.1);
+    font-size: 13px;
+  }
+  .resumen-row:last-child { border-bottom: none; }
+  .resumen-key { color: var(--rv-muted); min-width: 80px; flex-shrink: 0; }
+  .resumen-val { color: var(--rv-deep); font-weight: 500; }
+
+  /* Métodos de envío */
+  .send-methods { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .btn-wa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px;
+    background: #25D366;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 4px 16px rgba(37,211,102,0.3);
+  }
+  .btn-wa:hover { background: #1fba5a; }
+  .btn-wa:active { transform: scale(0.98); }
+  .btn-wa-icon { font-size: 20px; }
+
+  .method-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--rv-muted);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .method-divider::before, .method-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201,168,130,0.2);
+  }
+
+  .btn-copy-datos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    background: transparent;
+    color: var(--rv-muted);
+    border: 1.5px solid rgba(201,168,130,0.3);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-copy-datos:hover { border-color: var(--rv-nude); color: var(--rv-nude); }
+
+  /* Badge "ya guardado" */
+  .saved-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(123,158,126,0.12);
+    color: var(--rv-success);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--rv-deep);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 999;
+    opacity: 0;
+    transition: all 0.3s;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(42,31,26,0.25);
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  /* ── FOOTER ── */
+  .reg-footer {
+    text-align: center;
+    padding: 20px 24px 32px;
+    font-size: 11px;
+    color: rgba(125,107,98,0.5);
+    line-height: 1.6;
+  }
+
+  /* ── ERROR STATE ── */
+  .input-error { border-color: #C4706A !important; }
+  .error-msg { font-size: 11px; color: #C4706A; margin-top: 4px; display: none; }
+  .error-msg.show { display: block; }
+
+  /* ── ANIMACIONES ── */
+  .step.active { animation: fadeSlide 0.25s ease; }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-logo">Rocío Vene Makeup</div>
+    <div class="hero-tagline">Maquillaje profesional · León, Gto</div>
+    <div class="hero-divider"></div>
+    <div class="hero-title">Tu ficha de clienta</div>
+    <div class="hero-sub">Solo 3 pasos · Tarda menos de 2 minutos</div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR (parte del hero visualmente) -->
+<div class="progress-wrap">
+  <div class="progress-track">
+    <div class="prog-segment active" id="ps-1"></div>
+    <div class="prog-segment" id="ps-2"></div>
+    <div class="prog-segment" id="ps-3"></div>
+  </div>
+</div>
+
+<!-- CARD PRINCIPAL -->
+<div class="card-wrap">
+<div class="reg-card">
+
+  <!-- ── PASO 1: Datos personales ── -->
+  <div class="step active" id="step-1">
+    <div class="step-label">Paso 1 de 3</div>
+    <div class="step-title">¡Hola! 🌸<br>Cuéntame de ti</div>
+    <div class="step-sub">Así podré darte una atención completamente personalizada cada vez.</div>
+
+    <div class="form-group">
+      <label class="form-label">Nombre completo *</label>
+      <input type="text" class="form-input" id="r-nombre" placeholder="Tu nombre completo" autocomplete="name" inputmode="text">
+      <div class="error-msg" id="err-nombre">Por favor ingresa tu nombre</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">WhatsApp *</label>
+      <input type="tel" class="form-input" id="r-tel" placeholder="+52 477 123 4567" autocomplete="tel" inputmode="tel">
+      <div class="error-msg" id="err-tel">Por favor ingresa tu número</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email (opcional)</label>
+      <input type="email" class="form-input" id="r-email" placeholder="correo@email.com" autocomplete="email" inputmode="email">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Fecha de cumpleaños 🎂 (opcional)</label>
+      <input type="date" class="form-input" id="r-cumple">
+      <div class="error-msg" id="err-cumple"></div>
+    </div>
+
+    <button class="btn-primary" onclick="goStep(2)">Siguiente →</button>
+  </div>
+
+  <!-- ── PASO 2: Servicio ── -->
+  <div class="step" id="step-2">
+    <div class="step-label">Paso 2 de 3</div>
+    <div class="step-title">¿Qué tienes en mente? 💄</div>
+    <div class="step-sub">Selecciona el servicio que más te llama. Puedes cambiarlo después.</div>
+
+    <div class="services-grid">
+      <button class="service-btn" onclick="selectService(this,'Maquillaje de novia')">
+        <span class="svc-icon">💍</span>
+        <span class="svc-name">Novia</span>
+        <span class="svc-sub">Día especial</span>
+      </button>
+      <button class="service-btn" onclick="selectService(this,'Prueba de maquillaje')">
+        <span class="svc-icon">🪞</span>
+        <span class="svc-name">Prueba</span>
+        <span class="svc-sub">Ensayo previo</span>
+      </button>
+      <button class="service-btn" onclick="selectService(this,'Maquillaje social')">
+        <span class="svc-icon">🥂</span>
+        <span class="svc-name">Social</span>
+        <span class="svc-sub">Fiesta / evento</span>
+      </button>
+      <button class="service-btn" onclick="selectService(this,'Maquillaje XV años')">
+        <span class="svc-icon">🌹</span>
+        <span class="svc-name">XV Años</span>
+        <span class="svc-sub">Quinceañera</span>
+      </button>
+      <button class="service-btn" onclick="selectService(this,'Maquillaje artístico')">
+        <span class="svc-icon">🎨</span>
+        <span class="svc-name">Artístico</span>
+        <span class="svc-sub">Editorial / foto</span>
+      </button>
+      <button class="service-btn" onclick="selectService(this,'Curso de maquillaje')">
+        <span class="svc-icon">📚</span>
+        <span class="svc-name">Aprender</span>
+        <span class="svc-sub">Curso personal</span>
+      </button>
+    </div>
+    <input type="hidden" id="r-servicio">
+    <div class="error-msg" id="err-servicio">Selecciona un servicio para continuar</div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goStep(1)">← Atrás</button>
+      <button class="btn-primary" onclick="goStep(3)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ── PASO 3: Detalles finales ── -->
+  <div class="step" id="step-3">
+    <div class="step-label">Paso 3 de 3</div>
+    <div class="step-title">Últimos detalles ✨</div>
+    <div class="step-sub">Para conocerte mejor y poder cuidarte desde el primer contacto.</div>
+
+    <div class="form-group">
+      <label class="form-label">¿Cómo nos encontraste?</label>
+      <select class="form-input" id="r-fuente">
+        <option value="">Selecciona una opción</option>
+        <option>Instagram</option>
+        <option>Recomendación de amiga</option>
+        <option>Facebook</option>
+        <option>Google</option>
+        <option>TikTok</option>
+        <option>Ya soy clienta</option>
+        <option>Otra forma</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">¿Tienes fecha en mente para tu servicio?</label>
+      <input type="date" class="form-input" id="r-fecha-deseada">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Alergias o preferencias que deba saber (opcional)</label>
+      <textarea class="form-input" id="r-notas" rows="3" placeholder="Ej: Soy alérgica al latex, prefiero look natural, piel seca…"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goStep(2)">← Atrás</button>
+      <button class="btn-primary" onclick="completarRegistro()">✨ ¡Registrarme!</button>
+    </div>
+  </div>
+
+  <!-- ── PASO 4: Éxito ── -->
+  <div class="step" id="step-4">
+    <div class="success-wrap">
+      <div class="success-icon">🌸</div>
+      <div class="saved-badge" id="sheets-badge">⏳ Enviando tu registro…</div>
+      <div class="success-title">¡Listo, <span id="nombre-final"></span>!</div>
+      <div class="success-msg">Tu ficha está lista. Ahora <strong>envíale tus datos a Rocío</strong> para que pueda contactarte y agendar tu cita. 💄</div>
+
+      <div class="resumen-card">
+        <div class="resumen-label">Tu información</div>
+        <div id="resumen-contenido"></div>
+      </div>
+
+      <div class="send-methods">
+        <!-- Método A: WhatsApp directo -->
+        <a id="btn-wa-rocio" href="#" target="_blank" class="btn-wa">
+          <span class="btn-wa-icon">📱</span>
+          Enviar mis datos a Rocío por WhatsApp
+        </a>
+
+        <div class="method-divider">o también</div>
+
+        <!-- Método B: Copiar datos -->
+        <button class="btn-copy-datos" onclick="copiarDatos()">
+          📋 Copiar mis datos al portapapeles
+        </button>
+      </div>
+
+      <div style="margin-top:20px;padding:14px;background:rgba(201,168,130,0.08);border-radius:12px;font-size:12px;color:var(--rv-muted);line-height:1.6;text-align:left;">
+        💡 <strong style="color:var(--rv-deep)">¿Qué sigue?</strong><br>
+        Una vez que Rocío reciba tus datos, te contactará por WhatsApp para confirmar tu cita y resolver cualquier duda. ¡Muy pronto nos vemos! 🌸
+      </div>
+    </div>
+  </div>
+
+</div><!-- /reg-card -->
+</div><!-- /card-wrap -->
+
+<div class="reg-footer">
+  © Rocío Vene Makeup · León, Guanajuato<br>
+  Tu información es confidencial y segura 🔒
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────
+// CONFIGURACIÓN — cambia estos datos
+// ─────────────────────────────────────────────
+const ROCIO_TEL = '524771234567'; // ← pon el número real de WhatsApp de Rocío SIN + ni espacios
+const ROCIO_NOMBRE = 'Rocío Vene';
+const RV_KEY = 'rv_clientes';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyAyQdmRDkMG3nXsn7w8GUW7Q-7BMz9SKu_WBXNeL-MoWw6idyZuIT0f4iqx10a6lsyXg/exec';
+
+// ─────────────────────────────────────────────
+// ESTADO
+// ─────────────────────────────────────────────
+let datosCliente = {};
+let servicioSel = '';
+
+// ─────────────────────────────────────────────
+// NAVEGACIÓN ENTRE PASOS
+// ─────────────────────────────────────────────
+function goStep(n) {
+  // Validar antes de avanzar
+  if (n > 1 && !validarPaso(n - 1)) return;
+
+  // Animar salida
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+
+  // Progress bar
+  ['ps-1','ps-2','ps-3'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('done','active');
+    if (i + 1 < n) el.classList.add('done');
+    else if (i + 1 === n) el.classList.add('active');
+  });
+
+  // Scroll top suave
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validarPaso(paso) {
+  clearErrors();
+  if (paso === 1) {
+    const nombre = document.getElementById('r-nombre').value.trim();
+    const tel = document.getElementById('r-tel').value.trim();
+    let ok = true;
+    if (!nombre) { showError('err-nombre', 'r-nombre'); ok = false; }
+    if (!tel || tel.length < 10) { showError('err-tel', 'r-tel'); ok = false; }
+    return ok;
+  }
+  if (paso === 2) {
+    if (!servicioSel) {
+      document.getElementById('err-servicio').classList.add('show');
+      return false;
+    }
+    return true;
+  }
+  return true;
+}
+
+function showError(errId, inputId) {
+  document.getElementById(errId).classList.add('show');
+  document.getElementById(inputId).classList.add('input-error');
+}
+
+function clearErrors() {
+  document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show'));
+  document.querySelectorAll('.form-input').forEach(i => i.classList.remove('input-error'));
+}
+
+// ─────────────────────────────────────────────
+// SELECCIÓN DE SERVICIO
+// ─────────────────────────────────────────────
+function selectService(btn, servicio) {
+  document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  servicioSel = servicio;
+  document.getElementById('r-servicio').value = servicio;
+  document.getElementById('err-servicio').classList.remove('show');
+}
+
+// ─────────────────────────────────────────────
+// COMPLETAR REGISTRO
+// ─────────────────────────────────────────────
+function completarRegistro() {
+  // Recolectar datos
+  datosCliente = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    nombre: document.getElementById('r-nombre').value.trim(),
+    tel: document.getElementById('r-tel').value.trim(),
+    email: document.getElementById('r-email').value.trim(),
+    cumple: document.getElementById('r-cumple').value,
+    servicio: servicioSel,
+    fuente: document.getElementById('r-fuente').value,
+    fechaDeseada: document.getElementById('r-fecha-deseada').value,
+    notas: document.getElementById('r-notas').value.trim(),
+    tipo: 'Nueva',
+    registradaOnline: true,
+    creado: Date.now(),
+  };
+
+  // ── MÉTODO A: localStorage (mismo dispositivo) ──
+  try {
+    const clientes = JSON.parse(localStorage.getItem(RV_KEY)) || [];
+    const yaExiste = clientes.find(c =>
+      c.tel === datosCliente.tel ||
+      c.nombre.toLowerCase() === datosCliente.nombre.toLowerCase()
+    );
+    if (!yaExiste) {
+      clientes.unshift(datosCliente);
+      localStorage.setItem(RV_KEY, JSON.stringify(clientes));
+    }
+  } catch(e) {}
+
+  // ── MÉTODO B: Google Sheets (cualquier dispositivo) ──
+  enviarASheets(datosCliente);
+
+  // ── Construir mensaje WhatsApp (Método C) ──
+  const fechaCumple = datosCliente.cumple
+    ? new Date(datosCliente.cumple + 'T12:00').toLocaleDateString('es-MX', { day:'numeric', month:'long' })
+    : '—';
+  const fechaDeseada = datosCliente.fechaDeseada
+    ? new Date(datosCliente.fechaDeseada + 'T12:00').toLocaleDateString('es-MX', { day:'numeric', month:'long', year:'numeric' })
+    : '—';
+
+  const msgWA = [
+    `¡Hola ${ROCIO_NOMBRE}! 🌸 Me registré desde tu formulario. Aquí están mis datos:`,
+    ``,
+    `📛 *Nombre:* ${datosCliente.nombre}`,
+    `📱 *WhatsApp:* ${datosCliente.tel}`,
+    datosCliente.email    ? `📧 *Email:* ${datosCliente.email}` : null,
+    datosCliente.cumple   ? `🎂 *Cumpleaños:* ${fechaCumple}` : null,
+    `💄 *Servicio:* ${datosCliente.servicio || '—'}`,
+    datosCliente.fuente        ? `📍 *Cómo me enteré:* ${datosCliente.fuente}` : null,
+    datosCliente.fechaDeseada  ? `📅 *Fecha deseada:* ${fechaDeseada}` : null,
+    datosCliente.notas         ? `📝 *Notas:* ${datosCliente.notas}` : null,
+    ``,
+    `¡Quedo pendiente de tu respuesta! 💕`,
+  ].filter(l => l !== null).join('\n');
+
+  document.getElementById('btn-wa-rocio').href =
+    `https://wa.me/${ROCIO_TEL}?text=${encodeURIComponent(msgWA)}`;
+
+  // ── Pantalla éxito ──
+  document.getElementById('nombre-final').textContent = datosCliente.nombre.split(' ')[0];
+
+  const filas = [
+    { k: '📛 Nombre',   v: datosCliente.nombre },
+    { k: '📱 WhatsApp', v: datosCliente.tel },
+    datosCliente.email        ? { k: '📧 Email',    v: datosCliente.email } : null,
+    datosCliente.cumple       ? { k: '🎂 Cumple',   v: fechaCumple } : null,
+    { k: '💄 Servicio', v: datosCliente.servicio || '—' },
+    datosCliente.fuente       ? { k: '📍 Llegué por', v: datosCliente.fuente } : null,
+    datosCliente.fechaDeseada ? { k: '📅 Fecha',    v: fechaDeseada } : null,
+    datosCliente.notas        ? { k: '📝 Notas',    v: datosCliente.notas } : null,
+  ].filter(Boolean);
+
+  document.getElementById('resumen-contenido').innerHTML = filas.map(f => `
+    <div class="resumen-row">
+      <span class="resumen-key">${f.k}</span>
+      <span class="resumen-val">${f.v}</span>
+    </div>
+  `).join('');
+
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-4').classList.add('active');
+  ['ps-1','ps-2','ps-3'].forEach(id => document.getElementById(id)?.classList.add('done'));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─────────────────────────────────────────────
+// ENVIAR A GOOGLE SHEETS
+// ─────────────────────────────────────────────
+function enviarASheets(datos) {
+  // Mostrar badge de enviando
+  const badge = document.getElementById('sheets-badge');
+
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    mode: 'no-cors', // Google Apps Script requiere no-cors
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(datos)
+  })
+  .then(() => {
+    // no-cors no da respuesta legible, pero si no tira error llegó
+    if (badge) {
+      badge.textContent = '✓ Registrada en el sistema de Rocío';
+      badge.style.background = 'rgba(123,158,126,0.15)';
+      badge.style.color = '#7B9E7E';
+    }
+  })
+  .catch(() => {
+    // Silencioso — el WhatsApp sigue funcionando como respaldo
+    if (badge) {
+      badge.textContent = '⚠ Envía tus datos por WhatsApp';
+      badge.style.background = 'rgba(184,150,90,0.12)';
+      badge.style.color = '#B8965A';
+    }
+  });
+}
+
+// ─────────────────────────────────────────────
+// COPIAR DATOS (Método B)
+// ─────────────────────────────────────────────
+function copiarDatos() {
+  const fechaCumple = datosCliente.cumple
+    ? new Date(datosCliente.cumple + 'T12:00').toLocaleDateString('es-MX', { day:'numeric', month:'long' })
+    : null;
+  const fechaDeseada = datosCliente.fechaDeseada
+    ? new Date(datosCliente.fechaDeseada + 'T12:00').toLocaleDateString('es-MX', { day:'numeric', month:'long', year:'numeric' })
+    : null;
+
+  const texto = [
+    `Nueva clienta — Rocío Vene Makeup`,
+    ``,
+    `Nombre: ${datosCliente.nombre}`,
+    `WhatsApp: ${datosCliente.tel}`,
+    datosCliente.email ? `Email: ${datosCliente.email}` : null,
+    fechaCumple ? `Cumpleaños: ${fechaCumple}` : null,
+    `Servicio: ${datosCliente.servicio || '—'}`,
+    datosCliente.fuente ? `Fuente: ${datosCliente.fuente}` : null,
+    fechaDeseada ? `Fecha deseada: ${fechaDeseada}` : null,
+    datosCliente.notas ? `Notas: ${datosCliente.notas}` : null,
+  ].filter(Boolean).join('\n');
+
+  navigator.clipboard.writeText(texto)
+    .then(() => showToast('✓ Datos copiados al portapapeles'))
+    .catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = texto;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✓ Datos copiados');
+    });
+}
+
+// ─────────────────────────────────────────────
+// TOAST
+// ─────────────────────────────────────────────
+function showToast(msg, dur = 2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+// ─────────────────────────────────────────────
+// ENTER KEY
+// ─────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const paso = [...document.querySelectorAll('.step')].findIndex(s => s.classList.contains('active')) + 1;
+    if (paso === 1) goStep(2);
+    else if (paso === 3) completarRegistro();
+  }
+});
+</script>
+</body>
+</html>
