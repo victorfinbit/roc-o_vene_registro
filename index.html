@@ -539,8 +539,11 @@
       </select>
     </div>
     <div class="form-group">
-      <label class="form-label">¿Tienes fecha en mente para tu servicio?</label>
-      <input type="date" class="form-input" id="r-fecha-deseada">
+      <label class="form-label">¿Tienes fecha y hora en mente?</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <input type="date" class="form-input" id="r-fecha-deseada">
+        <input type="time" class="form-input" id="r-hora-deseada" placeholder="Hora preferida">
+      </div>
     </div>
     <div class="form-group">
       <label class="form-label">Alergias o preferencias que deba saber (opcional)</label>
@@ -692,6 +695,7 @@ function completarRegistro() {
     servicio: servicioSel,
     fuente: document.getElementById('r-fuente').value,
     fechaDeseada: document.getElementById('r-fecha-deseada').value,
+    horaDeseada: document.getElementById('r-hora-deseada').value || '',
     notas: document.getElementById('r-notas').value.trim(),
     tipo: 'Nueva',
     registradaOnline: true,
@@ -714,13 +718,14 @@ function completarRegistro() {
   // ── MÉTODO B: Google Sheets (cualquier dispositivo) ──
   enviarASheets(datosCliente);
 
-  // ── Construir mensaje WhatsApp (Método C) ──
+  // ── Construir mensaje WhatsApp ──
   const fechaCumple = datosCliente.cumple
     ? new Date(datosCliente.cumple + 'T12:00').toLocaleDateString('es-MX', { day:'numeric', month:'long' })
     : '—';
   const fechaDeseada = datosCliente.fechaDeseada
     ? new Date(datosCliente.fechaDeseada + 'T12:00').toLocaleDateString('es-MX', { day:'numeric', month:'long', year:'numeric' })
-    : '—';
+    : null;
+  const horaDeseada = datosCliente.horaDeseada || null;
 
   const msgWA = [
     `¡Hola ${ROCIO_NOMBRE}! 🌸 Me registré desde tu formulario. Aquí están mis datos:`,
@@ -730,9 +735,9 @@ function completarRegistro() {
     datosCliente.email    ? `📧 *Email:* ${datosCliente.email}` : null,
     datosCliente.cumple   ? `🎂 *Cumpleaños:* ${fechaCumple}` : null,
     `💄 *Servicio:* ${datosCliente.servicio || '—'}`,
-    datosCliente.fuente        ? `📍 *Cómo me enteré:* ${datosCliente.fuente}` : null,
-    datosCliente.fechaDeseada  ? `📅 *Fecha deseada:* ${fechaDeseada}` : null,
-    datosCliente.notas         ? `📝 *Notas:* ${datosCliente.notas}` : null,
+    datosCliente.fuente   ? `📍 *Cómo me enteré:* ${datosCliente.fuente}` : null,
+    fechaDeseada          ? `📅 *Fecha deseada:* ${fechaDeseada}${horaDeseada ? ' a las '+horaDeseada+' hrs' : ''}` : null,
+    datosCliente.notas    ? `📝 *Notas:* ${datosCliente.notas}` : null,
     ``,
     `¡Quedo pendiente de tu respuesta! 💕`,
   ].filter(l => l !== null).join('\n');
@@ -746,12 +751,12 @@ function completarRegistro() {
   const filas = [
     { k: '📛 Nombre',   v: datosCliente.nombre },
     { k: '📱 WhatsApp', v: datosCliente.tel },
-    datosCliente.email        ? { k: '📧 Email',    v: datosCliente.email } : null,
-    datosCliente.cumple       ? { k: '🎂 Cumple',   v: fechaCumple } : null,
+    datosCliente.email        ? { k: '📧 Email',      v: datosCliente.email } : null,
+    datosCliente.cumple       ? { k: '🎂 Cumple',     v: fechaCumple } : null,
     { k: '💄 Servicio', v: datosCliente.servicio || '—' },
     datosCliente.fuente       ? { k: '📍 Llegué por', v: datosCliente.fuente } : null,
-    datosCliente.fechaDeseada ? { k: '📅 Fecha',    v: fechaDeseada } : null,
-    datosCliente.notas        ? { k: '📝 Notas',    v: datosCliente.notas } : null,
+    fechaDeseada              ? { k: '📅 Fecha',      v: `${fechaDeseada}${horaDeseada ? ' · '+horaDeseada+' hrs' : ''}` } : null,
+    datosCliente.notas        ? { k: '📝 Notas',      v: datosCliente.notas } : null,
   ].filter(Boolean);
 
   document.getElementById('resumen-contenido').innerHTML = filas.map(f => `
@@ -768,30 +773,40 @@ function completarRegistro() {
 }
 
 // ─────────────────────────────────────────────
-// ENVIAR A GOOGLE SHEETS
+// ENVIAR A GOOGLE SHEETS (null-safe)
 // ─────────────────────────────────────────────
 function enviarASheets(datos) {
-  // Mostrar badge de enviando
   const badge = document.getElementById('sheets-badge');
+  const payload = {
+    id:           datos.id            || '',
+    nombre:       datos.nombre        || '',
+    tel:          datos.tel           || '',
+    email:        datos.email         || '',
+    cumple:       datos.cumple        || '',
+    servicio:     datos.servicio      || '',
+    fuente:       datos.fuente        || '',
+    fechaDeseada: datos.fechaDeseada  || '',
+    horaDeseada:  datos.horaDeseada   || '',
+    notas:        datos.notas         || '',
+    tipo:         'Nueva',
+  };
 
   fetch(SHEETS_URL, {
     method: 'POST',
-    mode: 'no-cors', // Google Apps Script requiere no-cors
+    mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(datos)
+    body: JSON.stringify(payload)
   })
   .then(() => {
-    // no-cors no da respuesta legible, pero si no tira error llegó
     if (badge) {
-      badge.textContent = '✓ Registrada en el sistema de Rocío';
+      badge.textContent = '✓ Registrada en Estudio RV Makeup';
       badge.style.background = 'rgba(123,158,126,0.15)';
       badge.style.color = '#7B9E7E';
     }
   })
   .catch(() => {
-    // Silencioso — el WhatsApp sigue funcionando como respaldo
     if (badge) {
-      badge.textContent = '⚠ Envía tus datos por WhatsApp';
+      badge.textContent = '⚠ Envía tus datos por WhatsApp como respaldo';
       badge.style.background = 'rgba(184,150,90,0.12)';
       badge.style.color = '#B8965A';
     }
